@@ -34,7 +34,7 @@ const clouds = new THREE.Mesh(
   new THREE.MeshLambertMaterial({ 
     map: cloudTexture, 
     transparent: true, 
-    opacity: 0.6 // 60% läpinäkyvyys
+    opacity: 0.9 // 90% läpinäkyvyys
   })
 );
 
