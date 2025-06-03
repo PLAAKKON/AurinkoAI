@@ -85,12 +85,7 @@ const startTime = now - pastHours * 60 * 60 * 1000;
 
 let currentStep = 0;
 
-// Luo askel-elementit
-for (let i = 0; i < steps; i++) {
-  const div = document.createElement('div');
-  div.className = 'step ' + (i < pastHours ? 'havainto' : 'ennuste');
-  stepBar.appendChild(div);
-}
+// Luo askelpalkki
 const stepDivs = stepBar.querySelectorAll('.step');
 
 // Animaatio: siirry seuraavaan askeleeseen 30s/120 = 250ms välein
@@ -103,11 +98,11 @@ setInterval(() => {
 
   // Päivitä aika ja labelit
   const stepTime = new Date(startTime + currentStep * stepHours * 60 * 60 * 1000);
+  const weekdayShort = weekdaysShort[stepTime.getUTCDay()];
   if (progressLabel) {
-    progressLabel.textContent = `UTC: ${stepTime.toISOString().replace('T', ' ').substring(0, 19)}`;
+    const tyyppi = currentStep < pastHours ? 'Havainto' : 'Ennuste';
+    progressLabel.textContent = `${tyyppi} ${weekdayShort} ${stepTime.getUTCDate()}.${stepTime.getUTCMonth()+1}. ${stepTime.getUTCHours()}:00`;
   }
-
-  // TODO: päivitä dataan liittyvä näkymä tässä (esim. pilvet, kartta tms.)
 
   // Seuraava askel
   currentStep = (currentStep + 1) % steps;
@@ -115,11 +110,10 @@ setInterval(() => {
 
 // --- Nykyinen aika ylhäällä ---
 const currentTimeLabel = document.getElementById('current-time-label');
-const weekdays = ['Sunnuntai', 'Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai'];
-
+const weekdaysShort = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'];
 function updateCurrentTime() {
   const now = new Date();
-  const weekday = weekdays[now.getUTCDay()];
+  const weekday = weekdaysShort[now.getUTCDay()];
   const timeString = now.toISOString().replace('T', ' ').substring(0, 19);
   if (currentTimeLabel) {
     currentTimeLabel.textContent = `${weekday} ${timeString} UTC`;
@@ -127,6 +121,27 @@ function updateCurrentTime() {
 }
 setInterval(updateCurrentTime, 1000);
 updateCurrentTime();
+
+for (let i = 0; i < steps; i++) {
+  const div = document.createElement('div');
+  div.className = 'step ' + (i < pastHours ? 'havainto' : 'ennuste');
+  // Päivän lyhenne label
+  const stepTime = new Date(startTime + i * stepHours * 60 * 60 * 1000);
+  const weekdayShort = weekdaysShort[stepTime.getUTCDay()];
+  div.title = `${weekdayShort} ${stepTime.getUTCHours()}:00`;
+  if (i % 6 === 0) { // Näytä label 6h välein
+    const label = document.createElement('span');
+    label.textContent = weekdayShort;
+    label.style.fontSize = '10px';
+    label.style.color = '#fff';
+    label.style.position = 'absolute';
+    label.style.top = '-16px';
+    label.style.left = '50%';
+    label.style.transform = 'translateX(-50%)';
+    div.appendChild(label);
+  }
+  stepBar.appendChild(div);
+}
 
 // Skaalautuvuus
 window.addEventListener('resize', () => {

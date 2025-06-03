@@ -6,14 +6,32 @@
   <style>
     #current-time-label {
       position: absolute;
-      top: 30px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
       color: #fff;
       font-family: monospace;
-      font-size: 20px;
+      font-size: 18px;
+      z-index: 30;
+      background: rgba(0,0,0,0.3);
+      padding: 4px 12px;
+      border-radius: 6px;
+    }
+    #progress-label {
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-family: monospace;
+      font-size: 16px;
       z-index: 20;
-  }
+      background: rgba(0,0,0,0.3);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+  
     #progress-container { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 80vw; height: 10px; background: #222; border-radius: 5px; overflow: hidden; z-index: 10; }
     #progress { height: 100%; width: 0; background: #4caf50; transition: width 0.5s; }
 
@@ -74,15 +92,25 @@
   border-radius: 2px;
   transition: opacity 0.2s, background 0.2s;
 }
-.step.havainto { background: #3355ff; }
-.step.ennuste { background: #22bb99; }
+.step.havainto {
+  background: #3b6fd6;
+}
+.step.ennuste {
+  background: #6fd6e7;
+}
 .step.active {
-  opacity: 1;
-  background: #fff !important;
+  border: 2px solid #fff;
 }
   </style>
 </head>
 <body>
+    <div style="color:#fff; text-align:center; font-family:monospace; margin-top:24px; margin-bottom:8px; font-size:1.5em; background:rgba(0,0,0,0.25); padding:10px 0 6px 0; border-radius:8px; width:90vw; left:50%; transform:translateX(-50%); position:absolute; top:0; z-index:40;">
+    <b>AurinkoAI</b> — kehittynyt tekoälypohjainen työkalu auringon aktiivisuuden ja avaruussään reaaliaikaiseen seurantaan ja ennustamiseen.<br>
+    <span style="font-size:1em; font-weight:normal; opacity:0.85;">
+      Projekti visualisoi maapallon pyörivänä globena, päivittyvillä pilvikerroksilla ja <b>48 tunnin ennustejaksolla</b>, tarjoten käyttäjälle selkeän näkymän auringonpurkauksiin ja niiden vaikutuksiin.<br>
+      <b>Tekijät:</b> LunaTechFI
+    </span>
+  </div>
   <div id="current-time-label"></div>
   <div id="progress-label"></div>
   <div id="progress-container">
