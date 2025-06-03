@@ -36,6 +36,50 @@
       background: #4caf50;
       transition: width 0.5s;
     }
+    #timeline-labels {
+  position: absolute;
+  bottom: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 15;
+}
+#label-havainto, #label-ennuste {
+  color: #fff;
+  font-family: monospace;
+  font-size: 16px;
+  opacity: 0.8;
+  background: rgba(0,0,0,0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+#step-bar {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  height: 14px;
+  display: flex;
+  gap: 1px;
+  z-index: 14;
+}
+.step {
+  flex: 1;
+  background: #4caf50;
+  opacity: 0.3;
+  border-radius: 2px;
+  transition: opacity 0.2s, background 0.2s;
+}
+.step.havainto { background: #3355ff; }
+.step.ennuste { background: #22bb99; }
+.step.active {
+  opacity: 1;
+  background: #fff !important;
+}
   </style>
 </head>
 <body>
@@ -44,6 +88,11 @@
   <div id="progress-container">
     <div id="progress"></div>
   </div>
+  <div id="timeline-labels">
+  <span id="label-havainto">Havainto</span>
+  <span id="label-ennuste">Ennuste</span>
+</div>
+<div id="step-bar"></div>
   <script type="module" src="main.js"></script>
 </body>
 </html>

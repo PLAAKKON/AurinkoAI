@@ -60,8 +60,7 @@ setInterval(() => {
   clouds.material.needsUpdate = true;
 }, 3600000); // 1 h = 3600000 ms
 
-// Aikajana
-const progressBar = document.getElementById('progress');
+// --- Aikajana ja askelpalkki ---
 const progressLabel = document.getElementById('progress-label');
 if (progressLabel) {
   progressLabel.style.position = 'absolute';
@@ -74,10 +73,47 @@ if (progressLabel) {
   progressLabel.style.zIndex = '20';
 }
 
-const timelineHours = 120;
+// Parametrit
+const totalHours = 120;
 const pastHours = 72;
 const futureHours = 48;
-const timelineMs = timelineHours * 60 * 60 * 1000;
+const stepHours = 1;
+const steps = totalHours / stepHours;
+const stepBar = document.getElementById('step-bar');
+const now = Date.now();
+const startTime = now - pastHours * 60 * 60 * 1000;
+
+let currentStep = 0;
+
+// Luo askel-elementit
+for (let i = 0; i < steps; i++) {
+  const div = document.createElement('div');
+  div.className = 'step ' + (i < pastHours ? 'havainto' : 'ennuste');
+  stepBar.appendChild(div);
+}
+const stepDivs = stepBar.querySelectorAll('.step');
+
+// Animaatio: siirry seuraavaan askeleeseen 30s/120 = 250ms välein
+const stepInterval = 30000 / steps;
+setInterval(() => {
+  // Poista vanha aktiivinen
+  stepDivs.forEach(div => div.classList.remove('active'));
+  // Lisää uusi aktiivinen
+  stepDivs[currentStep].classList.add('active');
+
+  // Päivitä aika ja labelit
+  const stepTime = new Date(startTime + currentStep * stepHours * 60 * 60 * 1000);
+  if (progressLabel) {
+    progressLabel.textContent = `UTC: ${stepTime.toISOString().replace('T', ' ').substring(0, 19)}`;
+  }
+
+  // TODO: päivitä dataan liittyvä näkymä tässä (esim. pilvet, kartta tms.)
+
+  // Seuraava askel
+  currentStep = (currentStep + 1) % steps;
+}, stepInterval);
+
+// --- Nykyinen aika ylhäällä ---
 const currentTimeLabel = document.getElementById('current-time-label');
 const weekdays = ['Sunnuntai', 'Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai'];
 
@@ -92,29 +128,6 @@ function updateCurrentTime() {
 setInterval(updateCurrentTime, 1000);
 updateCurrentTime();
 
-// 30 sekunnin animaatio
-const animationDuration = 30000; // 30 000 ms = 30 s
-const animationStart = Date.now();
-
-function updateTimeline() {
-  const now = Date.now();
-  // Laske kuinka pitkällä animaatiossa ollaan (0...1)
-  let progress = ((now - animationStart) % animationDuration) / animationDuration;
-  // Lasketaan offset -72h ... +48h
-  const offsetHours = -pastHours + progress * timelineHours;
-  const offsetMs = offsetHours * 60 * 60 * 1000;
-
-  // Päivitä palkin leveys
-  if (progressBar) progressBar.style.width = (progress * 100) + '%';
-
-  // Näytä UTC-aika kyseisessä kohdassa
-  if (progressLabel) {
-    const currentTime = new Date(Date.now() + offsetMs);
-    progressLabel.textContent = `UTC: ${currentTime.toISOString().replace('T', ' ').substring(0, 19)}`;
-  }
-}
-setInterval(updateTimeline, 100);
-updateTimeline();
 // Skaalautuvuus
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
