@@ -1,37 +1,34 @@
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>AurinkoAI - Maapallo</title>
+  <meta charset="UTF-8">
+  <title>AurinkoAi</title>
   <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background-color: black;
-      color: white;
-      font-family: sans-serif;
-    }
-    #timeline {
+    body { margin: 0; overflow: hidden; background: #000; }
+    #progress-container {
       position: absolute;
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 90%;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
+      width: 80vw;
+      height: 10px;
+      background: #222;
+      border-radius: 5px;
       overflow: hidden;
+      z-index: 10;
     }
     #progress {
       height: 100%;
-      background: limegreen;
-      width: 0%;
-      transition: width 1s linear;
+      width: 0;
+      background: #4caf50;
+      transition: width 0.5s;
     }
   </style>
 </head>
 <body>
-  <div id="timeline"><div id="progress"></div></div>
-  <script type="module" src="./src/main.js"></script>
+  <div id="progress-container">
+    <div id="progress"></div>
+  </div>
+  <script type="module" src="main.js"></script>
 </body>
 </html>
