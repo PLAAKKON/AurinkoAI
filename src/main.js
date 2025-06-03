@@ -21,8 +21,8 @@ scene.add(ambient);
 
 // Tekstuurien lataus
 const loader = new THREE.TextureLoader();
-const earthTexture = loader.load('/public/earth.jpg');
-const cloudTexture = loader.load('/public/clouds.png');
+const earthTexture = loader.load('/earth.jpg');
+const cloudTexture = loader.load('/clouds.png');
 
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(2, 64, 64),
@@ -54,7 +54,7 @@ animate();
 
 // Pilven päivitys 1 h välein (nyt demo 30s)
 setInterval(() => {
-  const newCloud = loader.load('/public/clouds.png?rand=' + Math.random());
+  const newCloud = loader.load('/clouds.png?rand=' + Math.random());
   clouds.material.map = newCloud;
   clouds.material.needsUpdate = true;
 }, 3600000); // 1 h = 3600000 ms
