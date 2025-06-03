@@ -54,10 +54,10 @@ animate();
 
 // Pilven päivitys 1 h välein (nyt demo 30s)
 setInterval(() => {
-  const newCloud = loader.load('/clouds.png?rand=' + Math.random());
+  const newCloud = loader.load('clouds.png?rand=' + Math.random());
   clouds.material.map = newCloud;
   clouds.material.needsUpdate = true;
-}, 3600000); // 1 h = 3600000 ms
+}, 3600000);
 
 // Aikajana
 const progressBar = document.getElementById('progress');
