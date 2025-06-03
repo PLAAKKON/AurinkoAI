@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <title>AurinkoAi</title>
   <style>
+    #current-time-label {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-family: monospace;
+      font-size: 20px;
+      z-index: 20;
+  }
     #progress-container { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 80vw; height: 10px; background: #222; border-radius: 5px; overflow: hidden; z-index: 10; }
     #progress { height: 100%; width: 0; background: #4caf50; transition: width 0.5s; }
 
@@ -29,6 +39,7 @@
   </style>
 </head>
 <body>
+  <div id="current-time-label"></div>
   <div id="progress-label"></div>
   <div id="progress-container">
     <div id="progress"></div>

@@ -78,6 +78,19 @@ const timelineHours = 120;
 const pastHours = 72;
 const futureHours = 48;
 const timelineMs = timelineHours * 60 * 60 * 1000;
+const currentTimeLabel = document.getElementById('current-time-label');
+const weekdays = ['Sunnuntai', 'Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai'];
+
+function updateCurrentTime() {
+  const now = new Date();
+  const weekday = weekdays[now.getUTCDay()];
+  const timeString = now.toISOString().replace('T', ' ').substring(0, 19);
+  if (currentTimeLabel) {
+    currentTimeLabel.textContent = `${weekday} ${timeString} UTC`;
+  }
+}
+setInterval(updateCurrentTime, 1000);
+updateCurrentTime();
 
 // 30 sekunnin animaatio
 const animationDuration = 30000; // 30 000 ms = 30 s
