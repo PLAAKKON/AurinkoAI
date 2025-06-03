@@ -31,7 +31,11 @@ const sphere = new THREE.Mesh(
 
 const clouds = new THREE.Mesh(
   new THREE.SphereGeometry(2.02, 64, 64),
-  new THREE.MeshLambertMaterial({ map: cloudTexture, transparent: true })
+  new THREE.MeshLambertMaterial({ 
+    map: cloudTexture, 
+    transparent: true, 
+    opacity: 0.6 // 60% läpinäkyvyys
+  })
 );
 
 scene.add(sphere);
