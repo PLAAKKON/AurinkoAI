@@ -21,17 +21,18 @@ scene.add(ambient);
 
 // Tekstuurien lataus
 const loader = new THREE.TextureLoader();
-const earthTexture = loader.load('/earth.jpg');
-const cloudTexture = loader.load('/clouds.png');
+const earthTexture = loader.load('earth.jpg');
+const cloudTexture = loader.load('clouds.png');
 
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(2, 64, 64),
   new THREE.MeshPhongMaterial({ map: earthTexture })
 );
 
+// Pilvet ja niiden läpinäkyvyys
 const clouds = new THREE.Mesh(
   new THREE.SphereGeometry(2.02, 64, 64),
-  new THREE.MeshLambertMaterial({ map: cloudTexture, transparent: true })
+  new THREE.MeshLambertMaterial({ map: cloudTexture, transparent: true, opacity: 0.6 })
 );
 
 scene.add(sphere);
@@ -44,7 +45,7 @@ const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   let delta = clock.getDelta();
-  const rotationSpeed = (Math.PI * 2) / 17;
+  const rotationSpeed = (Math.PI * 2) / 34; // Pyörimisnopeus puoliksi
   sphere.rotation.y += delta * rotationSpeed;
   clouds.rotation.y += delta * rotationSpeed * 1.02;
   renderer.render(scene, camera);
@@ -54,24 +55,14 @@ animate();
 
 // Pilven päivitys 1 h välein (nyt demo 30s)
 setInterval(() => {
-  const newCloud = loader.load('/clouds.png?rand=' + Math.random());
+  const newCloud = loader.load('clouds.png?rand=' + Math.random());
   clouds.material.map = newCloud;
   clouds.material.needsUpdate = true;
 }, 3600000); // 1 h = 3600000 ms
 
 // Aikajana
 const progressBar = document.getElementById('progress');
-const progressLabel = document.createElement('div');
-progressLabel.style.position = 'absolute';
-progressLabel.style.bottom = '35px';
-progressLabel.style.left = '50%';
-progressLabel.style.transform = 'translateX(-50%)';
-progressLabel.style.color = '#fff';
-progressLabel.style.fontFamily = 'monospace';
-progressLabel.style.fontSize = '16px';
-progressLabel.style.zIndex = '20';
-document.body.appendChild(progressLabel);
-
+const progressLabel = document.getElementById('progress-label');
 const timelineHours = 120;
 const pastHours = 72;
 const futureHours = 48;
