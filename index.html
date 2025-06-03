@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <title>AurinkoAi</title>
   <style>
+    #progress-container { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 80vw; height: 10px; background: #222; border-radius: 5px; overflow: hidden; z-index: 10; }
+    #progress { height: 100%; width: 0; background: #4caf50; transition: width 0.5s; }
+
     body { margin: 0; overflow: hidden; background: #000; }
     #progress-container {
       position: absolute;

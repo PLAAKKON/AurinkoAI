@@ -21,8 +21,8 @@ scene.add(ambient);
 
 // Tekstuurien lataus
 const loader = new THREE.TextureLoader();
-const earthTexture = loader.load('earth.jpg');
-const cloudTexture = loader.load('clouds.png');
+const earthTexture = loader.load('/earth.jpg');
+const cloudTexture = loader.load('/clouds.png');
 
 const sphere = new THREE.Mesh(
   new THREE.SphereGeometry(2, 64, 64),
@@ -31,11 +31,7 @@ const sphere = new THREE.Mesh(
 
 const clouds = new THREE.Mesh(
   new THREE.SphereGeometry(2.02, 64, 64),
-  new THREE.MeshLambertMaterial({ 
-    map: cloudTexture, 
-    transparent: true, 
-    opacity: 0.9 // 90% läpinäkyvyys
-  })
+  new THREE.MeshLambertMaterial({ map: cloudTexture, transparent: true })
 );
 
 scene.add(sphere);
@@ -48,7 +44,7 @@ const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   let delta = clock.getDelta();
-  const rotationSpeed = (Math.PI * 2) / 34; // Pyörimisnopeus puoliksi
+  const rotationSpeed = (Math.PI * 2) / 17;
   sphere.rotation.y += delta * rotationSpeed;
   clouds.rotation.y += delta * rotationSpeed * 1.02;
   renderer.render(scene, camera);
@@ -58,20 +54,43 @@ animate();
 
 // Pilven päivitys 1 h välein (nyt demo 30s)
 setInterval(() => {
-  const newCloud = loader.load('clouds.png?rand=' + Math.random());
+  const newCloud = loader.load('/clouds.png?rand=' + Math.random());
   clouds.material.map = newCloud;
   clouds.material.needsUpdate = true;
-}, 3600000);
+}, 3600000); // 1 h = 3600000 ms
 
 // Aikajana
 const progressBar = document.getElementById('progress');
+const progressLabel = document.createElement('div');
+progressLabel.style.position = 'absolute';
+progressLabel.style.bottom = '35px';
+progressLabel.style.left = '50%';
+progressLabel.style.transform = 'translateX(-50%)';
+progressLabel.style.color = '#fff';
+progressLabel.style.fontFamily = 'monospace';
+progressLabel.style.fontSize = '16px';
+progressLabel.style.zIndex = '20';
+document.body.appendChild(progressLabel);
+
+const timelineHours = 120;
+const pastHours = 72;
+const futureHours = 48;
+const timelineMs = timelineHours * 60 * 60 * 1000;
+
 function updateTimeline() {
   const now = Date.now();
-  const offset = now % 17000;
-  const percent = (offset / 17000) * 100;
+  // Simuloidaan liukupalkkia: 0 = nyt, vasemmalla -72h, oikealla +48h
+  // Oletetaan, että käyttäjä voi siirtyä aikajanalla (tässä vain nykyhetki)
+  const offsetMs = 0; // Jos haluat liikuteltavan aikajanan, muuta tätä
+  const percent = ((offsetMs + pastHours * 60 * 60 * 1000) / timelineMs) * 100;
   progressBar.style.width = percent + '%';
+
+  // Näytetään UTC-aika
+  const currentTime = new Date(now + offsetMs);
+  progressLabel.textContent = `UTC: ${currentTime.toISOString().replace('T', ' ').substring(0, 19)}`;
 }
 setInterval(updateTimeline, 1000);
+updateTimeline();
 
 // Skaalautuvuus
 window.addEventListener('resize', () => {
