@@ -21,7 +21,7 @@ scene.add(ambient);
 
 // Tekstuurien lataus
 const loader = new THREE.TextureLoader();
-const earthTexture = loader.load('/earth.jpg');
+const earthTexture = loader.load('earth.jpg');
 const cloudTexture = loader.load('clouds.png');
 
 const sphere = new THREE.Mesh(
