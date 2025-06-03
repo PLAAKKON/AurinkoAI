@@ -75,6 +75,7 @@ if (progressLabel) {
 
 // Parametrit
 const totalHours = 120;
+const weekdaysShort = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'];
 const pastHours = 72;
 const futureHours = 48;
 const stepHours = 1;
@@ -133,7 +134,7 @@ setInterval(() => {
 
 // --- Nykyinen aika ylhäällä ---
 const currentTimeLabel = document.getElementById('current-time-label');
-const weekdaysShort = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'];
+
 function updateCurrentTime() {
   const now = new Date();
   const weekday = weekdaysShort[now.getUTCDay()];
