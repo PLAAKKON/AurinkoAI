@@ -16,8 +16,8 @@ scene.add(light);
 scene.add(new THREE.AmbientLight(0x333333));
 
 const loader = new THREE.TextureLoader();
-const earthTexture = loader.load('/earth.jpg');
-const cloudTexture = loader.load('/clouds.png');
+const earthTexture = loader.load('public/earth.jpg');
+const cloudTexture = loader.load('public/clouds.png'); // pitää olla läpinäkyvä PNG!
 
 const earth = new THREE.Mesh(
   new THREE.SphereGeometry(2, 64, 64),
