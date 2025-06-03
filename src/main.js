@@ -37,7 +37,7 @@ const clouds = new THREE.Mesh(
 scene.add(sphere);
 scene.add(clouds);
 
-camera.position.z = 5;
+camera.position.z = 7;
 
 const clock = new THREE.Clock();
 
