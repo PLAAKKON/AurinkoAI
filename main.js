@@ -62,6 +62,11 @@ setInterval(() => {
 
 // --- Aikajana ja askelpalkki ---
 const progressLabel = document.getElementById('progress-label');
+function updateFontSizes() {
+  const size = window.innerWidth <= 600 ? '32px' : '16px';
+  if (progressLabel) progressLabel.style.fontSize = size;
+  if (currentTimeLabel) currentTimeLabel.style.fontSize = size;
+}
 if (progressLabel) {
   progressLabel.style.position = 'absolute';
   progressLabel.style.bottom = '35px';
@@ -69,9 +74,10 @@ if (progressLabel) {
   progressLabel.style.transform = 'translateX(-50%)';
   progressLabel.style.color = '#fff';
   progressLabel.style.fontFamily = 'monospace';
-  progressLabel.style.fontSize = '16px';
   progressLabel.style.zIndex = '20';
 }
+const currentTimeLabel = document.getElementById('current-time-label');
+updateFontSizes();
 
 // Parametrit
 const totalHours = 120;
@@ -122,7 +128,6 @@ setInterval(() => {
 }, stepInterval);
 
 // --- Nykyinen aika ylhäällä ---
-const currentTimeLabel = document.getElementById('current-time-label');
 
 function updateCurrentTime() {
   const now = new Date();
@@ -140,4 +145,5 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  updateFontSizes();
 });
