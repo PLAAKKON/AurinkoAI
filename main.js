@@ -94,17 +94,6 @@ for (let i = 0; i < steps; i++) {
   const stepTime = new Date(startTime + i * stepHours * 60 * 60 * 1000);
   const weekdayShort = weekdaysShort[stepTime.getUTCDay()];
   div.title = `${weekdayShort} ${stepTime.getUTCHours()}:00`;
-  if (i % 6 === 0) { // Näytä label 6h välein
-    const label = document.createElement('span');
-    label.textContent = weekdayShort;
-    label.style.fontSize = '10px';
-    label.style.color = '#fff';
-    label.style.position = 'absolute';
-    label.style.top = '-16px';
-    label.style.left = '50%';
-    label.style.transform = 'translateX(-50%)';
-    div.appendChild(label);
-  }
   stepBar.appendChild(div);
 }
 
