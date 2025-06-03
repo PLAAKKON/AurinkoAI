@@ -63,14 +63,17 @@ setInterval(() => {
 // Aikajana
 const progressBar = document.getElementById('progress');
 const progressLabel = document.getElementById('progress-label');
-progressLabel.style.position = 'absolute';
-progressLabel.style.bottom = '35px';
-progressLabel.style.left = '50%';
-progressLabel.style.transform = 'translateX(-50%)';
-progressLabel.style.color = '#fff';
-progressLabel.style.fontFamily = 'monospace';
-progressLabel.style.fontSize = '16px';
-progressLabel.style.zIndex = '20';
+
+if (progressLabel) {
+  progressLabel.style.position = 'absolute';
+  progressLabel.style.bottom = '35px';
+  progressLabel.style.left = '50%';
+  progressLabel.style.transform = 'translateX(-50%)';
+  progressLabel.style.color = '#fff';
+  progressLabel.style.fontFamily = 'monospace';
+  progressLabel.style.fontSize = '16px';
+  progressLabel.style.zIndex = '20';
+}
 
 const timelineHours = 120;
 const pastHours = 72;
@@ -79,15 +82,15 @@ const timelineMs = timelineHours * 60 * 60 * 1000;
 
 function updateTimeline() {
   const now = Date.now();
-  // Simuloidaan liukupalkkia: 0 = nyt, vasemmalla -72h, oikealla +48h
-  // Oletetaan, että käyttäjä voi siirtyä aikajanalla (tässä vain nykyhetki)
   const offsetMs = 0; // Jos haluat liikuteltavan aikajanan, muuta tätä
   const percent = ((offsetMs + pastHours * 60 * 60 * 1000) / timelineMs) * 100;
-  progressBar.style.width = percent + '%';
+  if (progressBar) progressBar.style.width = percent + '%';
 
   // Näytetään UTC-aika
-  const currentTime = new Date(now + offsetMs);
-  progressLabel.textContent = `UTC: ${currentTime.toISOString().replace('T', ' ').substring(0, 19)}`;
+  if (progressLabel) {
+    const currentTime = new Date(now + offsetMs);
+    progressLabel.textContent = `UTC: ${currentTime.toISOString().replace('T', ' ').substring(0, 19)}`;
+  }
 }
 setInterval(updateTimeline, 1000);
 updateTimeline();
