@@ -71,7 +71,6 @@ progressLabel.style.color = '#fff';
 progressLabel.style.fontFamily = 'monospace';
 progressLabel.style.fontSize = '16px';
 progressLabel.style.zIndex = '20';
-document.body.appendChild(progressLabel);
 
 const timelineHours = 120;
 const pastHours = 72;
