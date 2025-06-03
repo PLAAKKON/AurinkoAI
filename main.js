@@ -79,21 +79,29 @@ const pastHours = 72;
 const futureHours = 48;
 const timelineMs = timelineHours * 60 * 60 * 1000;
 
+// 30 sekunnin animaatio
+const animationDuration = 30000; // 30 000 ms = 30 s
+const animationStart = Date.now();
+
 function updateTimeline() {
   const now = Date.now();
-  const offsetMs = 0; // Jos haluat liikuteltavan aikajanan, muuta tätä
-  const percent = ((offsetMs + pastHours * 60 * 60 * 1000) / timelineMs) * 100;
-  if (progressBar) progressBar.style.width = percent + '%';
+  // Laske kuinka pitkällä animaatiossa ollaan (0...1)
+  let progress = ((now - animationStart) % animationDuration) / animationDuration;
+  // Lasketaan offset -72h ... +48h
+  const offsetHours = -pastHours + progress * timelineHours;
+  const offsetMs = offsetHours * 60 * 60 * 1000;
 
-  // Näytetään UTC-aika
+  // Päivitä palkin leveys
+  if (progressBar) progressBar.style.width = (progress * 100) + '%';
+
+  // Näytä UTC-aika kyseisessä kohdassa
   if (progressLabel) {
-    const currentTime = new Date(now + offsetMs);
+    const currentTime = new Date(Date.now() + offsetMs);
     progressLabel.textContent = `UTC: ${currentTime.toISOString().replace('T', ' ').substring(0, 19)}`;
   }
 }
-setInterval(updateTimeline, 1000);
+setInterval(updateTimeline, 100);
 updateTimeline();
-
 // Skaalautuvuus
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
