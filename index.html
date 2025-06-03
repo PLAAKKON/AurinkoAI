@@ -101,6 +101,27 @@
 .step.active {
   border: 2px solid #fff;
 }
+
+@media (max-width: 500px) {
+  #current-time-label,
+  #progress-label,
+  #timeline-labels span {
+    font-size: 17px !important;
+    line-height: 1.3;
+  }
+  #progress-label {
+    padding: 5px 10px;
+    bottom: 70px;
+  }
+  #timeline-labels span {
+    padding: 3px 8px;
+  }
+  #progress-container,
+  #step-bar,
+  #timeline-labels {
+    width: 98vw !important;
+  }
+}
   </style>
 </head>
 <body>
