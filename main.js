@@ -115,17 +115,20 @@ const stepInterval = 30000 / steps;
 setInterval(() => {
   // Poista vanha aktiivinen
   stepDivs.forEach(div => div.classList.remove('active'));
-  // Lisää uusi aktiivinen
-  stepDivs[currentStep].classList.add('active');
+  // Lisää uusi aktiivinen, vain jos olemassa
+  const safeStep = currentStep % stepDivs.length;
+  if (stepDivs[safeStep]) {
+    stepDivs[safeStep].classList.add('active');
+  }
   // Päivitä aika ja labelit
-  const stepTime = new Date(startTime + currentStep * stepHours * 60 * 60 * 1000);
+  const stepTime = new Date(startTime + safeStep * stepHours * 60 * 60 * 1000);
   const weekdayShort = weekdaysShort[stepTime.getUTCDay()];
   if (progressLabel) {
-    const tyyppi = currentStep < pastHours ? 'Havainto' : 'Ennuste';
+    const tyyppi = safeStep < pastHours ? 'Havainto' : 'Ennuste';
     progressLabel.textContent = `${tyyppi} ${weekdayShort} ${stepTime.getUTCDate()}.${stepTime.getUTCMonth()+1}. ${stepTime.getUTCHours()}:00`;
   }
   // Seuraava askel
-  currentStep = (currentStep + 1) % steps;
+  currentStep = (currentStep + 1) % stepDivs.length;
 }, stepInterval);
 
 // --- Nykyinen aika ylhäällä ---
