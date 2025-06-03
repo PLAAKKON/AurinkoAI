@@ -48,7 +48,7 @@ const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   let delta = clock.getDelta();
-  const rotationSpeed = (Math.PI * 2) / 17;
+  const rotationSpeed = (Math.PI * 2) / 34; // Pyörimisnopeus puoliksi
   sphere.rotation.y += delta * rotationSpeed;
   clouds.rotation.y += delta * rotationSpeed * 1.02;
   renderer.render(scene, camera);
