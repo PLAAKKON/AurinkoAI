@@ -63,7 +63,6 @@ setInterval(() => {
 // Aikajana
 const progressBar = document.getElementById('progress');
 const progressLabel = document.getElementById('progress-label');
-
 if (progressLabel) {
   progressLabel.style.position = 'absolute';
   progressLabel.style.bottom = '35px';
