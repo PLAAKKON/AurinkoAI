@@ -63,6 +63,16 @@ setInterval(() => {
 // Aikajana
 const progressBar = document.getElementById('progress');
 const progressLabel = document.getElementById('progress-label');
+progressLabel.style.position = 'absolute';
+progressLabel.style.bottom = '35px';
+progressLabel.style.left = '50%';
+progressLabel.style.transform = 'translateX(-50%)';
+progressLabel.style.color = '#fff';
+progressLabel.style.fontFamily = 'monospace';
+progressLabel.style.fontSize = '16px';
+progressLabel.style.zIndex = '20';
+document.body.appendChild(progressLabel);
+
 const timelineHours = 120;
 const pastHours = 72;
 const futureHours = 48;
