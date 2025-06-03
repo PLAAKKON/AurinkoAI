@@ -85,43 +85,7 @@ const startTime = now - pastHours * 60 * 60 * 1000;
 
 let currentStep = 0;
 
-// Luo askelpalkki
-const stepDivs = stepBar.querySelectorAll('.step');
-
-// Animaatio: siirry seuraavaan askeleeseen 30s/120 = 250ms välein
-const stepInterval = 30000 / steps;
-setInterval(() => {
-  // Poista vanha aktiivinen
-  stepDivs.forEach(div => div.classList.remove('active'));
-  // Lisää uusi aktiivinen
-  stepDivs[currentStep].classList.add('active');
-
-  // Päivitä aika ja labelit
-  const stepTime = new Date(startTime + currentStep * stepHours * 60 * 60 * 1000);
-  const weekdayShort = weekdaysShort[stepTime.getUTCDay()];
-  if (progressLabel) {
-    const tyyppi = currentStep < pastHours ? 'Havainto' : 'Ennuste';
-    progressLabel.textContent = `${tyyppi} ${weekdayShort} ${stepTime.getUTCDate()}.${stepTime.getUTCMonth()+1}. ${stepTime.getUTCHours()}:00`;
-  }
-
-  // Seuraava askel
-  currentStep = (currentStep + 1) % steps;
-}, stepInterval);
-
-// --- Nykyinen aika ylhäällä ---
-const currentTimeLabel = document.getElementById('current-time-label');
-const weekdaysShort = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'];
-function updateCurrentTime() {
-  const now = new Date();
-  const weekday = weekdaysShort[now.getUTCDay()];
-  const timeString = now.toISOString().replace('T', ' ').substring(0, 19);
-  if (currentTimeLabel) {
-    currentTimeLabel.textContent = `${weekday} ${timeString} UTC`;
-  }
-}
-setInterval(updateCurrentTime, 1000);
-updateCurrentTime();
-
+// Luo askelpalkki (vain yksi silmukka!)
 for (let i = 0; i < steps; i++) {
   const div = document.createElement('div');
   div.className = 'step ' + (i < pastHours ? 'havainto' : 'ennuste');
@@ -142,6 +106,41 @@ for (let i = 0; i < steps; i++) {
   }
   stepBar.appendChild(div);
 }
+
+// Hae stepDivs vasta nyt!
+const stepDivs = stepBar.querySelectorAll('.step');
+
+// Animaatio: siirry seuraavaan askeleeseen 30s/120 = 250ms välein
+const stepInterval = 30000 / steps;
+setInterval(() => {
+  // Poista vanha aktiivinen
+  stepDivs.forEach(div => div.classList.remove('active'));
+  // Lisää uusi aktiivinen
+  stepDivs[currentStep].classList.add('active');
+  // Päivitä aika ja labelit
+  const stepTime = new Date(startTime + currentStep * stepHours * 60 * 60 * 1000);
+  const weekdayShort = weekdaysShort[stepTime.getUTCDay()];
+  if (progressLabel) {
+    const tyyppi = currentStep < pastHours ? 'Havainto' : 'Ennuste';
+    progressLabel.textContent = `${tyyppi} ${weekdayShort} ${stepTime.getUTCDate()}.${stepTime.getUTCMonth()+1}. ${stepTime.getUTCHours()}:00`;
+  }
+  // Seuraava askel
+  currentStep = (currentStep + 1) % steps;
+}, stepInterval);
+
+// --- Nykyinen aika ylhäällä ---
+const currentTimeLabel = document.getElementById('current-time-label');
+const weekdaysShort = ['Su', 'Ma', 'Ti', 'Ke', 'To', 'Pe', 'La'];
+function updateCurrentTime() {
+  const now = new Date();
+  const weekday = weekdaysShort[now.getUTCDay()];
+  const timeString = now.toISOString().replace('T', ' ').substring(0, 19);
+  if (currentTimeLabel) {
+    currentTimeLabel.textContent = `${weekday} ${timeString} UTC`;
+  }
+}
+setInterval(updateCurrentTime, 1000);
+updateCurrentTime();
 
 // Skaalautuvuus
 window.addEventListener('resize', () => {
